@@ -8,5 +8,6 @@ To develop on this repository, clone it then run:
 
 ```sh
 pnpm install
+docker compose up -d # needs Docker installed
 pnpm dev
 ```
