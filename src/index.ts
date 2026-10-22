@@ -1,6 +1,12 @@
 import { serve } from "@hono/node-server";
+import dotenv from "dotenv";
+import { expand } from "dotenv-expand";
+import { drizzle } from "drizzle-orm/node-postgres";
 import { Hono } from "hono";
 
+expand(dotenv.config());
+
+const db = drizzle(process.env.DATABASE_URL!);
 const app = new Hono();
 
 app.get("/", (c) => {
