@@ -20,7 +20,7 @@ app.get(
     z.object({
       providerRef: z.union([
         providerRefSchema.transform((ref) => [ref]),
-        z.array(providerRefSchema),
+        z.array(providerRefSchema).max(20),
       ]),
     }),
   ),
