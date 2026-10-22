@@ -11,7 +11,7 @@ import { providerRefSchema } from "./zod-schemas.js";
 expand(dotenv.config());
 
 const db = drizzle(process.env.DATABASE_URL!, { relations });
-const app = new Hono();
+const app = new Hono().basePath("/api");
 
 app.get(
   "/discussions",
