@@ -5,10 +5,12 @@ import { Hono } from "hono";
 import z from "zod";
 import { relations } from "./db/relations.js";
 import { env } from "./env.js";
+import { loggerMiddleware } from "./logging.js";
 import { providerRefSchema } from "./zod-schemas.js";
 
 const db = drizzle(env.DATABASE_URL, { relations });
 const app = new Hono().basePath("/api");
+app.use(loggerMiddleware);
 
 app.get(
   "/discussions",
