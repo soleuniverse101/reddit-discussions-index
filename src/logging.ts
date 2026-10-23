@@ -7,6 +7,7 @@ import pino from "pino";
 import { env } from "./env.js";
 
 const logger = pino(
+  { base: null }, // removes pid and hostname
   pino.transport({
     targets: [
       { target: process.stdout.isTTY ? "pino-pretty" : "file" },
