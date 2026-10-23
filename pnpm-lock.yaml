@@ -35,9 +35,6 @@ importers:
       pino:
         specifier: ^10.4.0
         version: 10.4.0
-      pino-pretty:
-        specifier: ^13.2.0
-        version: 13.2.0
       pino-roll:
         specifier: ^4.0.0
         version: 4.0.0
@@ -51,6 +48,9 @@ importers:
       drizzle-kit:
         specifier: 1.0.0-rc.4
         version: 1.0.0-rc.4
+      pino-pretty:
+        specifier: ^13.2.0
+        version: 13.2.0
       prettier:
         specifier: ^3.9.10
         version: 3.9.10

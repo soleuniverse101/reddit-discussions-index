@@ -11,7 +11,11 @@ const logger = pino(
   { base: null }, // removes pid and hostname
   pino.transport({
     targets: [
-      { target: process.stdout.isTTY ? "pino-pretty" : "file" },
+      process.env.NODE_ENV == "development"
+        ? {
+            target: "pino-pretty",
+          }
+        : { target: "pino/file" }, // stdout
       {
         target: "pino-roll",
         options: {
