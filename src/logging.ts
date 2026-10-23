@@ -5,6 +5,7 @@ import { every } from "hono/combine";
 import { requestId } from "hono/request-id";
 import { join } from "path";
 import pino from "pino";
+import type { PrettyOptions } from "pino-pretty";
 import { env } from "./env.js";
 
 const logger = pino(
@@ -14,6 +15,9 @@ const logger = pino(
       process.env.NODE_ENV == "development"
         ? {
             target: "pino-pretty",
+            options: {
+              messageFormat: "{method} {path} {status}{if msg}: {msg}{end}",
+            } satisfies PrettyOptions,
           }
         : { target: "pino/file" }, // stdout
       {
@@ -33,6 +37,9 @@ function responseInfo(c: Context, elapsedMs: number) {
   const { address: remoteAddress, port: remotePort } = getConnInfo(c).remote;
 
   return {
+    method: c.req.method,
+    path: c.req.path,
+    status: c.res.status,
     elapsedMs,
     remoteAddress,
     remotePort,
@@ -45,14 +52,8 @@ export const loggerMiddleware = every(
   structuredLogger({
     createLogger: (c) => logger.child({ requestId: c.var.requestId }),
     onResponse: (logger, c, elapsedMs) =>
-      logger.info(
-        responseInfo(c, elapsedMs),
-        `${c.req.method} ${c.req.path} ${c.res.status}`,
-      ),
+      logger.info(responseInfo(c, elapsedMs)),
     onError: (logger, err, c, elapsedMs) =>
-      logger.error(
-        { err, ...responseInfo(c, elapsedMs) },
-        `${c.req.method} ${c.req.path} ${c.res.status}`,
-      ),
+      logger.error({ err, ...responseInfo(c, elapsedMs) }),
   }),
 );
