@@ -41,9 +41,9 @@ function responseInfo(c: Context, elapsedMs: number) {
     path: c.req.path,
     status: c.res.status,
     elapsedMs,
+    userAgent: c.req.header("User-Agent"),
     remoteAddress,
     remotePort,
-    userAgent: c.req.header("User-Agent"),
   };
 }
 
