@@ -1,16 +1,13 @@
 import { serve } from "@hono/node-server";
 import { zValidator } from "@hono/zod-validator";
-import dotenv from "dotenv";
-import { expand } from "dotenv-expand";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Hono } from "hono";
 import z from "zod";
 import { relations } from "./db/relations.js";
+import { env } from "./env.js";
 import { providerRefSchema } from "./zod-schemas.js";
 
-expand(dotenv.config());
-
-const db = drizzle(process.env.DATABASE_URL!, { relations });
+const db = drizzle(env.DATABASE_URL, { relations });
 const app = new Hono().basePath("/api");
 
 app.get(
