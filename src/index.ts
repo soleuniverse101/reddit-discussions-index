@@ -3,6 +3,7 @@ import type { StructuredLoggerEnv } from "@hono/structured-logger";
 import { zValidator } from "@hono/zod-validator";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 import type { Logger } from "pino";
 import z from "zod";
 import { relations } from "./db/relations.js";
@@ -40,6 +41,14 @@ app.get(
     );
   },
 );
+
+app.onError((err, c) => {
+  if (err instanceof HTTPException) {
+    return err.getResponse();
+  }
+
+  return c.text("Internal Server Error", 500);
+});
 
 const server = serve(
   {

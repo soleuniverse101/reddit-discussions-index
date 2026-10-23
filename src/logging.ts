@@ -1,5 +1,6 @@
 import { getConnInfo } from "@hono/node-server/conninfo";
 import { structuredLogger } from "@hono/structured-logger";
+import type { Context } from "hono";
 import { every } from "hono/combine";
 import { requestId } from "hono/request-id";
 import { join } from "path";
@@ -24,23 +25,30 @@ const logger = pino(
   }),
 );
 
+function responseInfo(c: Context, elapsedMs: number) {
+  const { address: remoteAddress, port: remotePort } = getConnInfo(c).remote;
+
+  return {
+    elapsedMs,
+    remoteAddress,
+    remotePort,
+    userAgent: c.req.header("User-Agent"),
+  };
+}
+
 export const loggerMiddleware = every(
   requestId(),
   structuredLogger({
     createLogger: (c) => logger.child({ requestId: c.var.requestId }),
-    onResponse: (logger, c, elapsedMs) => {
-      const { address: remoteAddress, port: remotePort } =
-        getConnInfo(c).remote;
-
+    onResponse: (logger, c, elapsedMs) =>
       logger.info(
-        {
-          elapsedMs,
-          remoteAddress,
-          remotePort,
-          userAgent: c.req.header("User-Agent"),
-        },
+        responseInfo(c, elapsedMs),
         `${c.req.method} ${c.req.path} ${c.res.status}`,
-      );
-    },
+      ),
+    onError: (logger, err, c, elapsedMs) =>
+      logger.error(
+        { err, ...responseInfo(c, elapsedMs) },
+        `${c.req.method} ${c.req.path} ${c.res.status}`,
+      ),
   }),
 );
