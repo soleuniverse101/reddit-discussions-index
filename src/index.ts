@@ -6,6 +6,7 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import type { Logger } from "pino";
 import z from "zod";
+import { tryMigrate } from "./db/migrate.js";
 import { relations } from "./db/relations.js";
 import { env } from "./env.js";
 import { createLogger, loggerMiddleware } from "./logging.js";
@@ -14,6 +15,8 @@ import { providerRefSchema } from "./zod-schemas.js";
 const logger = createLogger();
 
 const db = drizzle(env.DATABASE_URL, { relations });
+await tryMigrate(db, logger);
+
 const app = new Hono<StructuredLoggerEnv<Logger>>().basePath("/api");
 app.use(loggerMiddleware(logger));
 
