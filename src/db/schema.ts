@@ -1,13 +1,12 @@
 import {
   integer,
   pgEnum,
-  pgTable,
   primaryKey,
   snakeCase,
   text,
 } from "drizzle-orm/pg-core";
 
-export const discussions = pgTable("discussions", {
+export const discussions = snakeCase.table("discussions", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   url: text().notNull(),
 });
