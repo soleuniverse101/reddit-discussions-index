@@ -4,34 +4,36 @@ import type { Context } from "hono";
 import { every } from "hono/combine";
 import { requestId } from "hono/request-id";
 import { join } from "path";
-import pino from "pino";
+import pino, { type Logger } from "pino";
 import type { PrettyOptions } from "pino-pretty";
 import { env } from "./env.js";
 
-const logger = pino(
-  { base: null }, // removes pid and hostname
-  pino.transport({
-    targets: [
-      process.env.NODE_ENV == "development"
-        ? {
-            target: "pino-pretty",
-            options: {
-              messageFormat: "{method} {path} {status}{if msg}: {msg}{end}",
-            } satisfies PrettyOptions,
-          }
-        : { target: "pino/file" }, // stdout
-      {
-        target: "pino-roll",
-        options: {
-          file: join(env.LOGS_DIR, "log"),
-          frequency: "daily",
-          mkdir: true,
-          dateFormat: "yyyyMMdd",
+export function createLogger() {
+  return pino(
+    { base: null }, // removes pid and hostname
+    pino.transport({
+      targets: [
+        process.env.NODE_ENV == "development"
+          ? {
+              target: "pino-pretty",
+              options: {
+                messageFormat: "{method} {path} {status}{if msg}: {msg}{end}",
+              } satisfies PrettyOptions,
+            }
+          : { target: "pino/file" }, // stdout
+        {
+          target: "pino-roll",
+          options: {
+            file: join(env.LOGS_DIR, "log"),
+            frequency: "daily",
+            mkdir: true,
+            dateFormat: "yyyyMMdd",
+          },
         },
-      },
-    ],
-  }),
-);
+      ],
+    }),
+  );
+}
 
 function responseInfo(c: Context, elapsedMs: number) {
   const { address: remoteAddress, port: remotePort } = getConnInfo(c).remote;
@@ -47,13 +49,15 @@ function responseInfo(c: Context, elapsedMs: number) {
   };
 }
 
-export const loggerMiddleware = every(
-  requestId(),
-  structuredLogger({
-    createLogger: (c) => logger.child({ requestId: c.var.requestId }),
-    onResponse: (logger, c, elapsedMs) =>
-      logger.info(responseInfo(c, elapsedMs)),
-    onError: (logger, err, c, elapsedMs) =>
-      logger.error({ err, ...responseInfo(c, elapsedMs) }),
-  }),
-);
+export function loggerMiddleware(logger: Logger) {
+  return every(
+    requestId(),
+    structuredLogger({
+      createLogger: (c) => logger.child({ requestId: c.var.requestId }),
+      onResponse: (logger, c, elapsedMs) =>
+        logger.info(responseInfo(c, elapsedMs)),
+      onError: (logger, err, c, elapsedMs) =>
+        logger.error({ err, ...responseInfo(c, elapsedMs) }),
+    }),
+  );
+}
