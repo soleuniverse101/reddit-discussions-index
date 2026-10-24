@@ -17,7 +17,8 @@ export function createLogger() {
           ? {
               target: "pino-pretty",
               options: {
-                messageFormat: "{method} {path} {status}{if msg}: {msg}{end}",
+                messageFormat:
+                  "{if method}[{method} {path} {status}] {end}{msg}",
               } satisfies PrettyOptions,
             }
           : { target: "pino/file" }, // stdout
