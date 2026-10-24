@@ -1,0 +1,12 @@
+# Exclude everything by default to only include required files
+*
+
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!tsconfig.json
+!src/
+!drizzle/
+
+# Precaution to prevent secret leakage
+**/.env*
