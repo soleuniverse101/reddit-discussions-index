@@ -6,6 +6,7 @@ ARG PNPM_STORE="/pnpm/store"
 FROM --platform=$BUILDPLATFORM ${BASE_IMAGE} AS build
 COPY --from=ghcr.io/pnpm/pnpm:12 /opt/pnpm /opt/pnpm
 RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
+ARG PNPM_STORE
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=${PNPM_STORE},sharing=locked \
@@ -16,6 +17,7 @@ RUN pnpm build
 FROM ${BASE_IMAGE} AS prod-deps
 COPY --from=ghcr.io/pnpm/pnpm:12 /opt/pnpm /opt/pnpm
 RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
+ARG PNPM_STORE
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=${PNPM_STORE},sharing=locked \
