@@ -61,7 +61,7 @@ const server = serve(
     port: 80,
   },
   (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`);
+    logger.info(`Server is running on http://localhost:${info.port}`);
   },
 );
 
