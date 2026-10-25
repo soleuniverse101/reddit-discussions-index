@@ -1,10 +1,13 @@
 ARG BASE_IMAGE="node:24-slim"
-# PNPM_IMAGE="ghcr.io/pnpm/pnpm:12"
+ARG PNPM_IMAGE="ghcr.io/pnpm/pnpm:12"
 ARG PNPM_STORE="/pnpm/store"
+
+FROM ${PNPM_IMAGE} AS pnpm
+FROM --platform=$BUILDPLATFORM ${PNPM_IMAGE} AS pnpm-native
 
 # Build output (dist/) is the same whatever the platform so it doesn't need emulation
 FROM --platform=$BUILDPLATFORM ${BASE_IMAGE} AS build
-COPY --from=ghcr.io/pnpm/pnpm:12 /opt/pnpm /opt/pnpm
+COPY --from=pnpm-native /opt/pnpm /opt/pnpm
 RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
 ARG PNPM_STORE
 WORKDIR /app
@@ -15,7 +18,7 @@ COPY . .
 RUN pnpm build
 
 FROM ${BASE_IMAGE} AS prod-deps
-COPY --from=ghcr.io/pnpm/pnpm:12 /opt/pnpm /opt/pnpm
+COPY --from=pnpm /opt/pnpm /opt/pnpm
 RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
 ARG PNPM_STORE
 WORKDIR /app
