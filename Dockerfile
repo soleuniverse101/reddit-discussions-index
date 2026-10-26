@@ -34,10 +34,9 @@ COPY package.json ./
 COPY drizzle ./drizzle
 
 RUN mkdir /logs && chown node:node /logs
+VOLUME /logs
+ENV LOGS_DIR=/logs
 
 USER node
 ENV NODE_ENV=production
-
-ENV LOGS_DIR=/logs
-
 CMD ["node", "--enable-source-maps", "dist/index.js"]
