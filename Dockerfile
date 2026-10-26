@@ -37,6 +37,8 @@ RUN mkdir /logs && chown node:node /logs
 VOLUME /logs
 ENV LOGS_DIR=/logs
 
+EXPOSE 80
+
 USER node
 ENV NODE_ENV=production
 CMD ["node", "--enable-source-maps", "dist/index.js"]
