@@ -1,12 +1,13 @@
-import dotenv from "dotenv";
-import { expand } from "dotenv-expand";
 import z from "zod";
 
-expand(dotenv.config());
-
 const envSchema = z.object({
-  DATABASE_URL: z.string(),
+  POSTGRES_HOST: z.string(),
+  POSTGRES_DB: z.string().default("rdi"),
+  POSTGRES_USER: z.string().default("rdi"),
+  POSTGRES_PASSWORD: z.string(),
   LOGS_DIR: z.string().default("logs"),
 });
 
 export const env = envSchema.parse(process.env);
+
+export const DATABASE_URL = `postgres://${env.POSTGRES_USER}:${env.POSTGRES_PASSWORD}@${env.POSTGRES_HOST}:5432/${env.POSTGRES_DB}`;

@@ -5,6 +5,8 @@ services:
     volumes:
       - ./logs:/logs
     env_file: .env
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-db}
     ports:
       - "80:80"
     depends_on:
