@@ -1,0 +1,145 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "bfa65a3f-7144-40c4-903c-c23ab38fdb80",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "values": [
+        "anidb",
+        "anilist",
+        "myanimelist"
+      ],
+      "name": "provider",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "discussion_refs",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "discussions",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "discussion_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discussion_refs"
+    },
+    {
+      "type": "provider",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "provider",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discussion_refs"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "external_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discussion_refs"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": {
+        "type": "always",
+        "name": "discussions_id_seq",
+        "increment": "1",
+        "startWith": "1",
+        "minValue": "1",
+        "maxValue": "2147483647",
+        "cache": 1,
+        "cycle": false
+      },
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discussions"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "url",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "discussions"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "discussion_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "discussions",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "discussion_refs_discussion_id_discussions_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "discussion_refs"
+    },
+    {
+      "columns": [
+        "discussion_id",
+        "provider"
+      ],
+      "nameExplicit": false,
+      "name": "discussion_refs_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "discussion_refs"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "discussions_pkey",
+      "schema": "public",
+      "table": "discussions",
+      "entityType": "pks"
+    }
+  ],
+  "renames": []
+}
