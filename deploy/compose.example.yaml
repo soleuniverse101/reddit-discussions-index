@@ -10,7 +10,8 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:18
@@ -20,3 +21,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-rdi}
       POSTGRES_USER: ${POSTGRES_USER:-rdi}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
