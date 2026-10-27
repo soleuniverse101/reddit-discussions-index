@@ -34,7 +34,6 @@ COPY package.json ./
 COPY drizzle ./drizzle
 
 RUN mkdir /logs && chown node:node /logs
-VOLUME /logs
 ENV LOGS_DIR=/logs
 
 EXPOSE 80
