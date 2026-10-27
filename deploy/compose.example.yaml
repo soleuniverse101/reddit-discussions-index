@@ -23,7 +23,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-rdi}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-rdi}", "-U", "${POSTGRES_USER:-rdi}" ]
       interval: 5s
       timeout: 5s
       retries: 5
