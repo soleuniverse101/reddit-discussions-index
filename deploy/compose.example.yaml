@@ -1,7 +1,7 @@
 services:
   app:
     image: ghcr.io/soleuniverse101/reddit-discussions-index
-    container_name: reddit-discussions-index
+    container_name: rdi-app
     volumes:
       - ./logs:/logs
     env_file: .env
@@ -15,6 +15,7 @@ services:
 
   db:
     image: postgres:18
+    container_name: rdi-db
     volumes:
       - ./data:/var/lib/postgresql
     environment:
