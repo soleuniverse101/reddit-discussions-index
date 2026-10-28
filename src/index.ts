@@ -17,8 +17,9 @@ const logger = createLogger();
 const db = drizzle(DATABASE_URL, { relations });
 await tryMigrate(db, logger);
 
-const app = new Hono<StructuredLoggerEnv<Logger>>().basePath("/api");
-app.use(loggerMiddleware(logger));
+const app = new Hono<StructuredLoggerEnv<Logger>>()
+  .use(loggerMiddleware(logger))
+  .basePath("/api");
 
 app.get(
   "/discussions",
