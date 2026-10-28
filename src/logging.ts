@@ -55,7 +55,7 @@ function responseInfo(c: Context, elapsedMs: number) {
 
 export function loggerMiddleware(logger: Logger) {
   return every(
-    requestId(),
+    requestId({ headerName: "Cf-Ray" }),
     structuredLogger({
       createLogger: (c) => logger.child({ requestId: c.var.requestId }),
       onResponse: (logger, c, elapsedMs) =>
