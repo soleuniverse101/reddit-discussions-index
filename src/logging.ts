@@ -45,7 +45,10 @@ function responseInfo(c: Context, elapsedMs: number) {
     status: c.res.status,
     elapsedMs,
     userAgent: c.req.header("User-Agent"),
-    remoteAddress,
+    remoteAddress:
+      c.req.header("CF-Connecting-IPv6") ??
+      c.req.header("CF-Connecting-IP") ??
+      remoteAddress,
     remotePort,
   };
 }
