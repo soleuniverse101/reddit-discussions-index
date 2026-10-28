@@ -49,7 +49,6 @@ function responseInfo(c: Context, elapsedMs: number) {
       c.req.header("CF-Connecting-IPv6") ??
       c.req.header("CF-Connecting-IP") ??
       remoteAddress,
-    remotePort,
   };
 }
 
