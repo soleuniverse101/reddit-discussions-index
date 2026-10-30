@@ -5,14 +5,16 @@
   "private": true,
   "exports": "./src/index.ts",
   "scripts": {
-    "generate": "drizzle-kit generate"
+    "generate": "dotenv run -f ../../.env -- drizzle-kit generate"
   },
   "type": "module",
   "dependencies": {
     "drizzle-orm": "1.0.0-rc.4",
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "zod": "catalog:"
   },
   "devDependencies": {
+    "dotenv": "^18.0.8",
     "drizzle-kit": "1.0.0-rc.4"
   }
 }

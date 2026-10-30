@@ -6,13 +6,12 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import type { Logger } from "pino";
 import z from "zod";
-import { DATABASE_URL } from "./env.js";
 import { createLogger, loggerMiddleware } from "./logging.js";
 import { providerRefSchema } from "./zod-schemas.js";
 
 const logger = createLogger();
 
-const db = createDatabase(DATABASE_URL);
+const db = createDatabase();
 await tryMigrate(db, logger);
 
 const app = new Hono<StructuredLoggerEnv<Logger>>()
