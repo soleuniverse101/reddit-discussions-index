@@ -17,15 +17,9 @@ importers:
       '@hono/zod-validator':
         specifier: ^0.9.1
         version: 0.9.1(hono@4.13.13)(zod@4.6.7)
-      drizzle-orm:
-        specifier: 1.0.0-rc.4
-        version: 1.0.0-rc.4(@types/pg@8.23.1)(pg@8.23.1)(zod@4.6.7)
       hono:
         specifier: ^4.13.13
         version: 4.13.13
-      pg:
-        specifier: ^8.23.1
-        version: 8.23.1
       pino:
         specifier: ^10.4.0
         version: 10.4.0
@@ -42,9 +36,6 @@ importers:
       dotenv:
         specifier: ^18.0.8
         version: 18.0.8
-      drizzle-kit:
-        specifier: 1.0.0-rc.4
-        version: 1.0.0-rc.4
       pino-pretty:
         specifier: ^13.2.0
         version: 13.2.0
@@ -57,6 +48,19 @@ importers:
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
+
+  packages/db:
+    dependencies:
+      drizzle-orm:
+        specifier: 1.0.0-rc.4
+        version: 1.0.0-rc.4(@types/pg@8.23.1)(pg@8.23.1)(zod@4.6.7)
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
+    devDependencies:
+      drizzle-kit:
+        specifier: 1.0.0-rc.4
+        version: 1.0.0-rc.4
 
 packages:
 
