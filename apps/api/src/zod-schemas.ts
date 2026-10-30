@@ -1,10 +1,11 @@
+import "@reddit-discussions-index/db";
+import { providers } from "@reddit-discussions-index/db";
 import z from "zod";
-import { providerEnum } from "./db/schema.js";
 
-type ProviderId = (typeof providerEnum.enumValues)[number];
+type ProviderId = (typeof providers)[number];
 
 export const providerRefSchema = z
-  .templateLiteral([z.enum(providerEnum.enumValues), ":", z.int()])
+  .templateLiteral([z.enum(providers), ":", z.int()])
   .transform((ref) => {
     const parts = ref.split(":");
     return {
