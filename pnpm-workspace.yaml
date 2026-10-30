@@ -5,3 +5,5 @@ onlyBuiltDependencies:
   - esbuild
 allowBuilds:
   esbuild: true
+catalog:
+  zod: ^4.6.7
