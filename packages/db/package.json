@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "dotenv": "^18.0.8",
-    "drizzle-kit": "1.0.0-rc.4"
+    "drizzle-kit": "1.0.0-rc.4",
+    "pino": "catalog:"
   }
 }
