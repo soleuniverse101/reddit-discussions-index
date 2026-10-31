@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "API module",
   "private": true,
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsx watch --env-file=../../.env ./src/index.ts"
   },

@@ -3,7 +3,16 @@
   "version": "0.1.0",
   "description": "Database module",
   "private": true,
-  "exports": "./src/index.ts",
+  "files": [
+    "dist",
+    "drizzle"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "generate": "dotenv run -f ../../.env -- drizzle-kit generate"
   },

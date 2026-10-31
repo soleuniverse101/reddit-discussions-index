@@ -3,6 +3,8 @@ node_modules/
 
 # Build
 dist/
+*.tsbuildinfo
+out/
 
 # Environment variables
 .env

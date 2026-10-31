@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "pnpm --filter @reddit-discussions-index/api dev",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "tsc -b",
+    "deploy:api": "pnpm build apps/api && pnpm --filter @reddit-discussions-index/api deploy --prod out",
     "format": "prettier -w .",
     "db:generate": "pnpm --filter @reddit-discussions-index/db generate"
   },
