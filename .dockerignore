@@ -1,12 +1,21 @@
 # Exclude everything by default to only include required files
 *
 
-!package.json
+# To fetch dependencies
 !pnpm-lock.yaml
 !pnpm-workspace.yaml
-!tsconfig.json
-!src/
-!drizzle/
+
+# Includes root, apps and packages
+!**/package.json
+!**/tsconfig*.json
+!**/src/
+
+# For packages/db
+!packages/db/drizzle/
+
+# Exclude local dependencies in dev
+**/node_modules/**/*
+out/**/*
 
 # Precaution to prevent secret leakage
 **/.env*

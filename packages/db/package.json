@@ -1,0 +1,31 @@
+{
+  "name": "@reddit-discussions-index/db",
+  "version": "0.1.0",
+  "description": "Database module",
+  "private": true,
+  "files": [
+    "dist",
+    "drizzle"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "generate": "dotenv run -f ../../.env -- drizzle-kit generate"
+  },
+  "type": "module",
+  "dependencies": {
+    "drizzle-orm": "1.0.0-rc.4",
+    "pg": "^8.23.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "dotenv": "^18.0.8",
+    "drizzle-kit": "1.0.0-rc.4",
+    "pino": "catalog:"
+  }
+}

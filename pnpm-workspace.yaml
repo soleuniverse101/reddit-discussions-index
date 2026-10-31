@@ -1,4 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
 onlyBuiltDependencies:
   - esbuild
 allowBuilds:
   esbuild: true
+catalog:
+  "@types/node": ^26.1.1
+  pino: ^10.4.0
+  zod: ^4.6.7
